@@ -1,0 +1,29 @@
+
+# Build output
+bin/
+obj/
+
+# Visual Studio user-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio folders
+.vs/
+
+# Logs
+*.log
+
+# Local database files
+*.mdf
+*.ldf
+
+# Secrets and local configuration
+appsettings.Local.json
+
+# Local development configuration
+appsettings.Development.json
+
+# Protect local database configuration
+appsettings.json

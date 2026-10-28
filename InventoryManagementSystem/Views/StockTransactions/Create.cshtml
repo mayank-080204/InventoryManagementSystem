@@ -1,0 +1,90 @@
+﻿@using Microsoft.AspNetCore.Mvc.Rendering
+
+@model InventoryManagementSystem.Models.StockTransaction
+
+@{
+    ViewData["Title"] = "Record Stock Transaction";
+}
+
+<h1>Record Stock Transaction</h1>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create" method="post">
+
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger"></div>
+
+            <div class="form-group mb-3">
+                <label asp-for="ProductId"
+                       class="control-label">Product</label>
+
+                <select asp-for="ProductId"
+                        class="form-select"
+                        asp-items="@(new SelectList(ViewBag.Products, "ProductId", "ProductName"))">
+                    <option value="">-- Select Product --</option>
+                </select>
+
+                <span asp-validation-for="ProductId"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="TransactionType"
+                       class="control-label">Transaction Type</label>
+
+                <select asp-for="TransactionType"
+                        class="form-select">
+                    <option value="">-- Select Type --</option>
+                    <option value="IN">IN - Stock Received</option>
+                    <option value="OUT">OUT - Stock Removed</option>
+                </select>
+
+                <span asp-validation-for="TransactionType"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Quantity"
+                       class="control-label">Quantity</label>
+
+                <input asp-for="Quantity"
+                       type="number"
+                       min="1"
+                       class="form-control" />
+
+                <span asp-validation-for="Quantity"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Remarks"
+                       class="control-label">Remarks</label>
+
+                <textarea asp-for="Remarks"
+                          class="form-control"
+                          rows="3"></textarea>
+
+                <span asp-validation-for="Remarks"
+                      class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Record Transaction
+            </button>
+
+            <a asp-action="Index" class="btn btn-secondary">
+                Back to List
+            </a>
+
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

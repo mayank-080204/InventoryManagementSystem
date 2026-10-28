@@ -1,0 +1,62 @@
+﻿
+@model IEnumerable<InventoryManagementSystem.Models.Supplier>
+
+@{
+    ViewData["Title"] = "Suppliers";
+}
+
+<div class="container mt-4">
+    <h1>Suppliers</h1>
+
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Create New</a>
+    </p>
+
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Supplier Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Address</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var supplier in Model)
+                {
+                    <tr>
+                        <td>@supplier.SupplierName</td>
+                        <td>@supplier.Email</td>
+                        <td>@supplier.Phone</td>
+                        <td>@supplier.Address</td>
+                        <td>
+                            <a asp-action="Edit"
+                               asp-route-id="@supplier.SupplierId"
+                               class="btn btn-warning btn-sm">Edit</a>
+
+                            <a asp-action="Details"
+                               asp-route-id="@supplier.SupplierId"
+                               class="btn btn-info btn-sm">Details</a>
+
+                            <a asp-action="Delete"
+                               asp-route-id="@supplier.SupplierId"
+                               class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5" class="text-center">
+                        No suppliers found. Click Create New to add a supplier.
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

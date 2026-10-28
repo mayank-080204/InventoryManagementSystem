@@ -1,0 +1,120 @@
+﻿@model InventoryManagementSystem.ViewModels.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Inventory Dashboard";
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">Inventory Dashboard</h1>
+
+    <div class="row g-4 mb-4">
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-muted">Total Products</h5>
+                    <h2 class="text-primary">@Model.TotalProducts</h2>
+                    <a asp-controller="Products"
+                       asp-action="Index"
+                       class="btn btn-outline-primary btn-sm">
+                        View Products
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-muted">Total Stock Units</h5>
+                    <h2 class="text-success">@Model.TotalStockUnits</h2>
+                    <a asp-controller="StockTransactions"
+                       asp-action="Index"
+                       class="btn btn-outline-success btn-sm">
+                        View Transactions
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-muted">Low Stock Products</h5>
+                    <h2 class="@(Model.LowStockProducts > 0 ? "text-danger" : "text-success")">
+                        @Model.LowStockProducts
+                    </h2>
+                    @if (Model.LowStockProducts > 0)
+                    {
+                        <span class="text-danger">Restocking may be needed.</span>
+                    }
+                    else
+                    {
+                        <span class="text-success">No low-stock products.</span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Recent Stock Transactions</h4>
+        </div>
+
+        <div class="card-body">
+            @if (Model.RecentTransactions.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Transaction ID</th>
+                                <th>Product</th>
+                                <th>Type</th>
+                                <th>Quantity</th>
+                                <th>Date</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var transaction in Model.RecentTransactions)
+                            {
+                                <tr>
+                                    <td>@transaction.TransactionId</td>
+                                    <td>
+                                        @(transaction.Product?.ProductName ?? "Unknown")
+                                    </td>
+                                    <td>
+                                        @if (transaction.TransactionType == "IN")
+                                        {
+                                            <span class="badge bg-success">IN</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-danger">OUT</span>
+                                        }
+                                    </td>
+                                    <td>@transaction.Quantity</td>
+                                    <td>
+                                        @transaction.TransactionDate.ToString("dd-MM-yyyy HH:mm")
+                                    </td>
+                                    <td>@transaction.Remarks</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <p class="text-muted mb-0">No stock transactions recorded yet.</p>
+            }
+
+            <a asp-controller="StockTransactions"
+               asp-action="Index"
+               class="btn btn-primary mt-3">
+                View All Transactions
+            </a>
+        </div>
+    </div>
+</div>
